@@ -7,6 +7,7 @@ import java.net.http.HttpRequest.Builder;
 
 import javax.net.ssl.HttpsURLConnection;
 
+@SuppressWarnings("unused")
 public class HttpTest {
 	private final HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
 
@@ -46,7 +47,7 @@ public class HttpTest {
 		// print response body
 		System.out.println(response.body());
 	}
-
+	
 	private void sendHttpsGetRequest() {
 		final String apiKey = "719433f15a3249d2b79154934202403";
 		String httpsUrl = "https://api.weatherapi.com/v1/current.json?key=" + apiKey + "&q=" + "Riga";

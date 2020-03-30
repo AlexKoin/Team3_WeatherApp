@@ -4,28 +4,26 @@ body {
 	color: #192e45;
 	font-size: 12pt;
 	font-family: 'Baloo Da 2', cursive;
-	/* background-color: #78a5d6; s*/
-	/* background-color: #8e7a9e; purple */
 }
 
+/* Accent color for main page background */
 .bg-accent {
 	background-color: #19b57c;
 }
 
-
-.col-sm
-{
+/* Please do not modify Bootstrap-specific css - use Bootstrap reference to choose appropriate formatting
+* else define custom css */
+/* .col-sm {
 	background-color: white;
 	border-radius: 10px;
 	border: 1px solid #F5F5F5;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-	margin-right:15px;
-	margin-bottom:15px;
+	margin-right: 15px;
+	margin-bottom: 15px;
 	padding: 10px;
-	
-}
+} */
 
-.lastRow
-{
+
+.lastRow {
 	padding-botom: 30px;
 }

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="team3.weatherapp.WeatherAppController"%>
-<%@ page import="team3.dbmanagement.DbManager"%>
+<%@ page import="team3.dbmanagement.DatabaseManager"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
@@ -34,7 +34,7 @@
 			<div class="input-group mb-3">
 				<select class="custom-select" id="inputGroupSelect03" name="location">
 				<option disabled="disabled" selected="selected">Choose city...</option>
-				 <c:forEach items="<%= WeatherAppController.cityList() %>" var="listItem">
+				 <c:forEach items="<%= DatabaseManager.getCityNameList() %>" var="listItem">
         			<option>${listItem}</option>
    				 </c:forEach>
 <!-- 				<select name="display" class="custom-select" id="inputGroupSelect03">

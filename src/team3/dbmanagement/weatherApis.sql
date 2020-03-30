@@ -30,13 +30,13 @@ DROP TABLE IF EXISTS `cities`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cities` (
   `CityName` varchar(30) NOT NULL,
-  `WeatherAPIARIS` varchar(150) NOT NULL,
-  `WeatherAPICC` varchar(150) NOT NULL,
-  `WeatherAPIDarkSky` varchar(150) NOT NULL,
-  `WeatherAPIOWM` varchar(150) NOT NULL,
-  `WeatherAPIWAPI` varchar(150) NOT NULL,
-  `WeatherAPIWB` varchar(150) NOT NULL,
-  `WeatherAPIWS` varchar(150) NOT NULL
+  `ApiAeris` varchar(150) NOT NULL,
+  `ApiClimaCell` varchar(150) NOT NULL,
+  `ApiDarkSky` varchar(150) NOT NULL,
+  `ApiOpenWeatherMap` varchar(150) NOT NULL,
+  `ApiWeatherApi` varchar(150) NOT NULL,
+  `ApiWeatherBit` varchar(150) NOT NULL,
+  `ApiWeatherStack` varchar(150) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
