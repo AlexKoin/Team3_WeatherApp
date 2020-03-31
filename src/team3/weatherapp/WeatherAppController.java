@@ -2,12 +2,14 @@ package team3.weatherapp;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import team3.dbmanagement.DatabaseManager;
 import team3.weatherapis.Weather;
+import team3.weatherapis.WeatherApi;
 import team3.weatherapis.WeatherApi;
 import team3.weatherapis.ApiAeris;
 import team3.weatherapis.ApiClimaCell;
@@ -154,13 +156,22 @@ public class WeatherAppController implements Serializable {
 							averageTemperature = temperatureTotal / apiCount;
 						}
 
-						htmlStringBuilder.append("<p> Average Temperature for "+ locationParameter +" is " + averageTemperature + " °C</p>");
+						htmlStringBuilder.append("<p> Average Temperature for "+ locationParameter +" is " + averageTemperature + " Â°C</p>");
 						// TODO: need to implement
 						// htmlBuilder.append("<div class='badge badge-warning'>Not implemented</div>");
 						// response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
 						
 						response.setStatus(HttpServletResponse.SC_OK);
 						break;
+					}
+					
+					case "charts" : {
+						// 4 divs for each chart
+						for (int i = 1; i != 5 ; i ++) {
+							htmlStringBuilder.append("<div class ='charts' id='chart"+i+"'></div>");  }
+						
+							response.setStatus(HttpServletResponse.SC_OK);
+							break;
 					}
 					
 					default :
@@ -185,4 +196,20 @@ public class WeatherAppController implements Serializable {
 
 		return htmlStringBuilder.toString();
 	}
+	
+	public static List<Weather> getWeatherResults(HttpServletRequest request, HttpServletResponse response) {
+		ArrayList<Weather> weatherResults = new ArrayList<Weather>();
+		String location = request.getParameter("location");
+		String display = request.getParameter("display");
+		
+		if ((location != null) && (!location.isBlank())) {
+			ArrayList<WeatherApi> weatherApis = getWeatherApiList();
+			/* Use location parameter here to retrieve weather data: */
+			for (WeatherApi api : weatherApis) {
+				weatherResults.add(api.getWeather(location));
+			}	
+		}
+		return weatherResults;
+	}
+	
 }
