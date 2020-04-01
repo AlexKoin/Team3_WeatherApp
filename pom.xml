@@ -86,7 +86,7 @@
 		        <version>3.0.1</version>
 		        	<configuration>
 						<jdkVersion>13</jdkVersion>		
-						  <appName>Team3-WeatherApp</appName>         
+						  <appName>team3-weatherApp</appName>         
 		        	</configuration>
       		</plugin>
       		 <plugin>
