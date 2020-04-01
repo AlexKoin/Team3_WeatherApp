@@ -78,9 +78,6 @@
 				<version>3.2.3</version>
 				<configuration>
 					<warSourceDirectory>WebContent</warSourceDirectory>
-<!--   					<processTypes>
-     					<web>java $JAVA_OPTS -cp target/classes:target/dependency/* Main</web>
-  					</processTypes> -->
 				</configuration>
 			</plugin>
 			<plugin>
@@ -88,7 +85,8 @@
 		        <artifactId>heroku-maven-plugin</artifactId>
 		        <version>3.0.1</version>
 		        	<configuration>
-						<jdkVersion>13</jdkVersion>		         
+						<jdkVersion>13</jdkVersion>		
+						  <appName>Team3-WeatherApp</appName>         
 		        	</configuration>
       		</plugin>
       		 <plugin>
