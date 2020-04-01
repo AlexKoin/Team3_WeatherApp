@@ -13,7 +13,7 @@ public enum CardinalDirection {
 		
 		float clippedDegree = inputDegree%360.0f;
 		
-		if ((clippedDegree >= 337.5f) && (clippedDegree < 22.5f))
+		if ((clippedDegree >= 0f) && (clippedDegree < 22.5f))
 		{
 			direction = NORTH;
 		}
@@ -44,6 +44,10 @@ public enum CardinalDirection {
 		else if ((clippedDegree >= 292.5f) && (clippedDegree < 337.5f))
 		{
 			direction = NORTHWEST;
+		}
+		else if ((clippedDegree >= 337.5f) && (clippedDegree <= 360.0f))
+		{
+			direction = NORTH;
 		}
 		else
 		{

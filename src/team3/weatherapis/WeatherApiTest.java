@@ -9,13 +9,13 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
-public class WeatherAPITest {
+public class WeatherApiTest {
 
 	public static void main(String[] args) {
-		//ArrayList<WeatherAPI> weatherApis = new ArrayList<WeatherAPI>();
+		// ArrayList<WeatherAPI> weatherApis = new ArrayList<WeatherAPI>();
 
-		//DatabaseManager city = new DatabaseManager();
-		//city.setCityToApis("Paris");
+		// DatabaseManager city = new DatabaseManager();
+		// city.setCityToApis("Paris");
 
 		DatabaseManager.getCityNameList();
 
@@ -44,29 +44,28 @@ public class WeatherAPITest {
 			weatherResults.add(api.getWeather(DatabaseManager.getApiLocation(locationParameter, api.getApiId())));
 		}
 
-//		for (Weather weatherResult : weatherResults) {
-//			System.out.println(weatherResult.toString());
-//			System.out.println("***");
-//		}
+		for (Weather weatherResult : weatherResults) {
+			System.out.println(weatherResult.toString());
+			System.out.println("***");
+		}
 	}
 
-
 	@Before
-	public void setUp () throws Exception {
+	public void setUp() throws Exception {
 		System.out.println("Starting test..");
 	}
 
 	@After
-	public void tearDown () throws Exception {
+	public void tearDown() throws Exception {
 		System.out.println("Finishing test..");
 	}
 
 	@Test
-	public void test01CardinalDirections () {
+	public void test01CardinalDirections() {
 		CardinalDirection actual, expected;
 
-		actual = CardinalDirection.fromDegree(180.0f + 22.4f);
-		expected = CardinalDirection.SOUTH;
+		actual = CardinalDirection.fromDegree(340.0f + 22.4f);
+		expected = CardinalDirection.NORTH;
 		assertEquals("Cardinal Direction incorrect", expected, actual);
 	}
 

@@ -9,6 +9,13 @@ import java.util.Map;
 
 public class ApiClimaCell extends WeatherApi {
 
+	public static void main(String[] args)
+	{
+		WeatherApi api = new ApiClimaCell();
+		
+		System.out.println(api.getWeather("lat=56.946&lon=24.105").toString());
+	}
+	
     public ApiClimaCell()
     {
     	super("climacell.co");
@@ -19,7 +26,7 @@ public class ApiClimaCell extends WeatherApi {
         Weather weather = null;
         
         String apiKey = "dCj790S0DL1qEx8DmUdV9JDyY0aT0E4x";
-        String apiUrl = "https://api.climacell.co/v3/weather/realtime?" + location + "&fields=temp,humidity,wind_speed,wind_direction";
+        String apiUrl = "https://api.climacell.co/v3/weather/realtime?" + location + "&fields=temp,humidity,precipitation,weather_code,wind_speed,wind_direction";
 
 		StringBuilder stringBuilder = new StringBuilder();
 
@@ -60,19 +67,26 @@ public class ApiClimaCell extends WeatherApi {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected Weather parseWeather(String json) {
-		String location = "", temperature = "", humidity = "", windSpeed = "", windDirection = "", timestamp = "";
+		String location="", weather="", temperature = "", humidity = "", precipitation="", windSpeed = "", windDirection = "", timestamp = "";
 		
 		if (json != null) {
+			// TODO : remove debug
+			//System.out.println(json);
+			
 			Map<String, Object> map = WeatherApi.jsonToMap(json);
             
+			location = "lat:" + map.get("lat").toString() + ", lon:" + map.get("lon").toString();
+			weather = ((Map<String, Object>)map.get("weather_code")).get("value").toString();
 	        temperature = ((Map<String, Object>)map.get("temp")).get("value").toString();
 	        humidity = ((Map<String, Object>)map.get("humidity")).get("value").toString();
+	        precipitation = ((Map<String, Object>)map.get("precipitation")).get("value").toString();
 	        windSpeed = ((Map<String, Object>)map.get("wind_speed")).get("value").toString();
 	        float windDirectionInDegrees = Float.parseFloat(((Map<String, Object>)map.get("wind_direction")).get("value").toString());
-	        windDirection = CardinalDirection.fromDegree(windDirectionInDegrees).toString();
+	        windDirection = CardinalDirection.fromDegree(windDirectionInDegrees).toString().toLowerCase();
+	        
 	        timestamp = "to be implemented";
 		}
 		
-		return new Weather(this.getSourceName(), location, temperature, humidity, windSpeed, windDirection, timestamp);
+		return new Weather(this.getSourceName(), location, weather, temperature, humidity, precipitation, windSpeed, windDirection, timestamp);
 	}
 }

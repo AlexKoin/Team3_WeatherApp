@@ -17,19 +17,16 @@ import team3.weatherapis.ApiWeatherApi;
 import team3.weatherapis.ApiWeatherBit;
 import team3.weatherapis.ApiWeatherStack;
 
-
 public class WeatherAppController implements Serializable {
 
 	private static final long serialVersionUID = -8408135492483896421L;
-	
-	public WeatherAppController() {
 
+	private WeatherAppController() {
 	}
-	
-	private static ArrayList<WeatherApi> getWeatherApiList()
-	{
+
+	private static ArrayList<WeatherApi> getWeatherApiList() {
 		ArrayList<WeatherApi> weatherApis = new ArrayList<WeatherApi>();
-		
+
 		// openweathermap.org
 		weatherApis.add(new ApiAeris());
 		// climacell.co
@@ -44,7 +41,7 @@ public class WeatherAppController implements Serializable {
 		weatherApis.add(new ApiWeatherApi());
 		// weatherstack.com
 		weatherApis.add(new ApiWeatherStack());
-		
+
 		return weatherApis;
 	}
 
@@ -60,17 +57,15 @@ public class WeatherAppController implements Serializable {
 //		
 //		return htmlStringBuilder.toString();
 //	}
-	
+
+	@SuppressWarnings("unused")
 	public static String formatWeatherResults(HttpServletRequest request, HttpServletResponse response) {
 		StringBuilder htmlStringBuilder = new StringBuilder();
-		
+
 		String locationParameter = request.getParameter("location");
 		String displayParameter = request.getParameter("display");
-		
+
 		if ((locationParameter != null) && (!locationParameter.isBlank())) {
-			
-			//ArrayList<String> cityNameList = DatabaseManager.getCityNameList();
-			
 			ArrayList<WeatherApi> weatherApis = getWeatherApiList();
 			ArrayList<Weather> weatherResults = new ArrayList<Weather>();
 
@@ -78,111 +73,243 @@ public class WeatherAppController implements Serializable {
 			for (WeatherApi api : weatherApis) {
 				weatherResults.add(api.getWeather(DatabaseManager.getApiLocation(locationParameter, api.getApiId())));
 			}
-			
-			System.out.println("Got weather results: " + weatherResults.size());
-			
+
+			// TODO : delete debug
+			// System.out.println("Got weather results: " + weatherResults.size());
+
 			/* Use display parameter to format data for display: */
-			if ((displayParameter != null) && (!displayParameter.isBlank()))
-			{
-				htmlStringBuilder.append("<div class='container py-3'>");
-				
-				switch (displayParameter)
-				{
-					case "table" :
-					{
-						htmlStringBuilder.append("<h1>Weather forecast for " + locationParameter +"</h1>");
-						htmlStringBuilder.append("<div class='container'>");
-						
-//						htmlStringBuilder.append("<div class='row'>");
-//						htmlStringBuilder.append("<div class='col-sm'>");
-//						htmlStringBuilder.append(city.getApiAris().toString());
-//						htmlStringBuilder.append("</div>");
-//						htmlStringBuilder.append("<div class='col-sm'>");
-//						htmlStringBuilder.append(city.getApiCc().toString());
-//						htmlStringBuilder.append("</div>");
-//						htmlStringBuilder.append("</div>");
-//						htmlStringBuilder.append("<div class='row'>");
-//						htmlStringBuilder.append("<div class='col-sm'>");
-//						htmlStringBuilder.append(city.getApiDs().toString());
-//						htmlStringBuilder.append("</div>");
-//						htmlStringBuilder.append("<div class='col-sm'>");
-//						htmlStringBuilder.append(city.getApiOwm().toString());
-//						htmlStringBuilder.append("</div>");
-//						htmlStringBuilder.append("</div>");
-//						htmlStringBuilder.append("<div class='row'>");
-//						htmlStringBuilder.append("<div class='col-sm'>");
-//						htmlStringBuilder.append(city.getApiWapi().toString());
-//						htmlStringBuilder.append("</div>");
-//						htmlStringBuilder.append("<div class='col-sm'>");
-//						htmlStringBuilder.append(city.getApiWb().toString());
-//						htmlStringBuilder.append("</div>");
-//						htmlStringBuilder.append("</div>");
-//						htmlStringBuilder.append("<div class='row'>");
-//						htmlStringBuilder.append("<div class='col-sm'>");
-//						htmlStringBuilder.append(city.getApiWs().toString());
-//						htmlStringBuilder.append("</div>");
-//						htmlStringBuilder.append("</div>");
-//						htmlStringBuilder.append("</div>");		
-						
-						for (Weather weather : weatherResults) {
-							htmlStringBuilder.append("<li class='list-group-item'>");
-							htmlStringBuilder.append(weather.toString());
-							htmlStringBuilder.append("</li>");
-						}
-						
-						htmlStringBuilder.append("</ul>");
-						htmlStringBuilder.append("</div>");	
-						
-						response.setStatus(HttpServletResponse.SC_OK);
-						
-						break;
-					}
-				
-					case "average" :
-					{
-						int apiCount = 0;
-						float temperatureTotal = 0.0f;
-						for (Weather weather : weatherResults) {
-							temperatureTotal += Float.parseFloat(weather.getTemperature());
-							apiCount ++;
-						}
-						
-						float averageTemperature = 0.0f;
-						
-						if (apiCount > 0)
-						{
-							averageTemperature = temperatureTotal / apiCount;
+			if ((displayParameter != null) && (!displayParameter.isBlank())) {
+
+				switch (displayParameter) {
+				// Rendering of table display
+				case "table": {
+					htmlStringBuilder.append("<h1>Weather forecast for " + locationParameter + "</h1>");
+
+					int columnCount = 3; // non-index column count per row
+					int lastColumn = columnCount - 1; // index of last column in row
+					int totalColumnCount = (int) (Math.ceil((double) weatherResults.size() / (double) columnCount)
+							* columnCount);
+
+					// TODO : delete debug
+					// System.out.println(weatherResults.size() + "/" + columnCount + "/" +
+					// totalColumnCount);
+
+					int currentColumn = 0;
+					String source = "", location = "", weather = "", temperature = "", humidity = "",
+							precipitation = "", windSpeed = "", windDirection = "", timestamp = "";
+
+					for (int i = 0; i < totalColumnCount; i++) {
+						/* open row */
+						if (0 == currentColumn) {
+							htmlStringBuilder.append("<div class=\"row\">");
 						}
 
-						htmlStringBuilder.append("<p> Average Temperature for "+ locationParameter +" is " + averageTemperature + " °C</p>");
-						// TODO: need to implement
-						// htmlBuilder.append("<div class='badge badge-warning'>Not implemented</div>");
-						// response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+						/* open column */
+						htmlStringBuilder.append("<div class=\"col\">");
+
+						if (i < weatherResults.size()) {
+							/* Build weather result card */
+							htmlStringBuilder.append(buildWeatherCard(weatherResults.get(i)));
+						}
+
+						/* close column */
+						htmlStringBuilder.append("</div>");
+
+						/* close row */
+						if (lastColumn == currentColumn) {
+							htmlStringBuilder.append("</div>");
+						}
+
+						currentColumn++;
+						currentColumn %= lastColumn + 1;
+					}
+
+					response.setStatus(HttpServletResponse.SC_OK);
+
+					break;
+				}
+
+				case "average": {
+					String location = locationParameter;
+					String weatherDescription = "";
+					String temperature = "";
+					String humidity = "";
+					String precipitation = "";
+					String windSpeed = "";
+					String windDirection = "";
+
+					int apiCount = 0;
+					float temperatureTotal = 0.0f;
+					float humidityTotal = 0.0f;
+					float precipitationTotal = 0.0f;
+					float windSpeedTotal = 0.0f;
+
+					for (Weather weather : weatherResults) {
+						temperatureTotal += Float.parseFloat(weather.getTemperature());
+						humidityTotal += Float.parseFloat(weather.getHumidity());
+						precipitationTotal += Float.parseFloat(weather.getPrecipitation());
+						windSpeedTotal += Float.parseFloat(weather.getWindSpeed());
+						apiCount++;
+					}
+
+					if (apiCount > 0) {
+						temperature = String.format("%.1f", temperatureTotal / apiCount);
+						humidity = String.format("%.1f", humidityTotal / apiCount);
+						precipitation = String.format("%.1f", precipitationTotal / apiCount);
+						windSpeed = String.format("%.1f", windSpeedTotal / apiCount);
+					}
+
+//						/* open row */
+//						htmlStringBuilder.append("<div class=\"row\">");
+
+//						/* open column */
+//						htmlStringBuilder.append("<div class=\"col\">");
+//						/* close column */
+//						htmlStringBuilder.append("</div>");
+
+					/* open column */
+					htmlStringBuilder.append("<div class=\"col\">");
+					/* Build weather result card */
+					htmlStringBuilder.append(buildWeatherCard(new Weather("average weather", location,
+							weatherDescription, temperature, humidity, precipitation, windSpeed, windDirection, "")));
+					/* close column */
+					htmlStringBuilder.append("</div>");
+
+//						/* open column */
+//						htmlStringBuilder.append("<div class=\"col\">");
+//						/* close column */
+//						htmlStringBuilder.append("</div>");
+
+//						/* close row */
+//						htmlStringBuilder.append("</div>");
+
+					response.setStatus(HttpServletResponse.SC_OK);
+					break;
+				}
+
+				case "minmax": {
+					String location = locationParameter;
+					String weatherDescription = "";
+
+					/* 1000.0 is a crutch to get the values to update */
+					String temperatureMin = "1000.0";
+					String humidityMin = "1000.0";
+					String precipitationMin = "1000.0";
+					String windSpeedMin = "1000.0";
+
+					String windDirection = "";
+
+					String temperatureMax = "0.0";
+					String humidityMax = "0.0";
+					String precipitationMax = "0.0";
+					String windSpeedMax = "0.0";
+
+					for (Weather weather : weatherResults) {
+						System.out.println(weather.getSourceName());
 						
-						response.setStatus(HttpServletResponse.SC_OK);
-						break;
+						temperatureMin = (Float.parseFloat(weather.getTemperature()) < Float.parseFloat(temperatureMin))
+								? weather.getTemperature()
+								: temperatureMin;
+						temperatureMax = (Float.parseFloat(weather.getTemperature()) > Float.parseFloat(temperatureMax))
+								? weather.getTemperature()
+								: temperatureMax;
+								
+						humidityMin = (Float.parseFloat(weather.getHumidity()) < Float.parseFloat(humidityMin))
+								? weather.getHumidity()
+								: humidityMin;
+						humidityMax = (Float.parseFloat(weather.getHumidity()) > Float.parseFloat(humidityMax))
+								? weather.getHumidity()
+								: humidityMax;
+								
+						precipitationMin = (Float.parseFloat(weather.getPrecipitation()) < Float.parseFloat(precipitationMin))
+								? weather.getPrecipitation()
+								: precipitationMin;
+						precipitationMax = (Float.parseFloat(weather.getPrecipitation()) > Float.parseFloat(precipitationMax))
+								? weather.getPrecipitation()
+								: precipitationMax;
+								
+						windSpeedMin = (Float.parseFloat(weather.getWindSpeed()) < Float.parseFloat(windSpeedMin))
+								? weather.getWindSpeed()
+								: windSpeedMin;
+						windSpeedMax = (Float.parseFloat(weather.getWindSpeed()) > Float.parseFloat(windSpeedMax))
+								? weather.getWindSpeed()
+								: windSpeedMax;
 					}
 					
-					default :
-					{
-						// Invalid display parameter
-						response.setStatus(HttpServletResponse.SC_ACCEPTED);
-					}
+					Weather weatherMin = new Weather("minimum weather", location,
+							weatherDescription, temperatureMin, humidityMin, precipitationMin, windSpeedMin, windDirection, "");
+					Weather weatherMax = new Weather("maximum weather", location,
+							weatherDescription, temperatureMax, humidityMax, precipitationMax, windSpeedMax, windDirection, "");
+
+					/* open row */
+					htmlStringBuilder.append("<div class=\"row\">");
+
+					/* open column */
+					htmlStringBuilder.append("<div class=\"col\">");
+					/* Build weather result card */
+					htmlStringBuilder.append(buildWeatherCard(weatherMin));
+					/* close column */
+					htmlStringBuilder.append("</div>");
+
+					/* open column */
+					htmlStringBuilder.append("<div class=\"col\">");
+					/* Build weather result card */
+					htmlStringBuilder.append(buildWeatherCard(weatherMax));
+					/* close column */
+					htmlStringBuilder.append("</div>");
+
+					/* close row */
+					htmlStringBuilder.append("</div>");
+
+					response.setStatus(HttpServletResponse.SC_OK);
+					break;
 				}
-				
-				htmlStringBuilder.append("</div>");
-			}	
-		}
-		else if((locationParameter == null))
-		{
-			if((displayParameter != null) && (!displayParameter.isBlank())) 
-			{
-				htmlStringBuilder.append("<div class='container py-3'>");
-				htmlStringBuilder.append("<div class='badge badge-warning'>Please choose city!</div>");
-				htmlStringBuilder.append("</div>");
+
+				default: {
+					// Invalid display parameter
+					response.setStatus(HttpServletResponse.SC_ACCEPTED);
+				}
+				}
+			}
+		} else if ((locationParameter == null) || (locationParameter.isBlank())) {
+			if ((displayParameter != null) && (!displayParameter.isBlank())) {
+				htmlStringBuilder.append("<span class='badge badge-pill badge-warning p-2'>Please select a city!</span>");
 			}
 		}
 
 		return htmlStringBuilder.toString();
+	}
+
+	private static String buildWeatherCard(Weather weather) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		String source = weather.getSourceName();
+		String location = weather.getLocation();
+		String weatherDescription = weather.getWeather();
+		String temperature = weather.getTemperature();
+		String humidity = weather.getHumidity();
+		String precipitation = weather.getPrecipitation();
+		String windSpeed = weather.getWindSpeed();
+		String windDirection = weather.getWindDirection();
+		// String timestamp = weather.getTimestamp();
+
+		/* Build weather result card */
+		stringBuilder.append("<div class=\"weather-card rounded shadow\">");
+		stringBuilder.append("<div class=\"weather-card-header rounded-top bg-accent-light\">");
+		stringBuilder.append("<strong>" + source + "</strong>");
+		stringBuilder.append("</div>");
+
+		stringBuilder.append("<div class=\"weather-card-content rounded-bottom bg-white\">");
+		stringBuilder.append("location: " + location + "<br>");
+		stringBuilder.append("weather: " + weatherDescription + "<br>");
+		stringBuilder.append("temperature: " + temperature + "°C<br>");
+		stringBuilder.append("humidity: " + humidity + "%<br>");
+		stringBuilder.append("precipitation: " + precipitation + "mm/h<br>");
+		stringBuilder.append("wind speed: " + windSpeed + "m/s<br>");
+		stringBuilder.append("wind direction: " + windDirection);
+		stringBuilder.append("</div>");
+		stringBuilder.append("</div>");
+
+		return stringBuilder.toString();
 	}
 }

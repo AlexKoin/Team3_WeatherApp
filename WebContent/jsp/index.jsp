@@ -24,20 +24,19 @@
 <body class="bg-accent">
 
 	<!-- Page Header -->
-	<div class="jumbotron jumbotron-fluid bg-light text-center">
-		<p>Accenture Java/Software Bootcamp</p>
-		<h1>Team 3: Weather Forecast App</h1>
-	</div>
+	<header>
+		<!-- Fixed navbar -->
+		<nav class="navbar navbar-light fixed-top bg-light shadow">
+			<span class="navbar-brand">Team3: Weather Aggregator</span>
+			<span class="text-muted">Accenture Java/Software Bootcamp</span>
+		</nav>
+    </header>
 	
-	
-	
-	
-	
-	<!-- User input -->
-	<div class="container bg-light rounded p-3">
+	<!-- Begin page content -->
+	<main role="main" class="container page-content shadow bg-light rounded-bottom">
 		<form>
 			<div class="input-group mb-3">
-				<select class="custom-select" id="inputGroupSelect03" name="location">
+				<select class="custom-select" name="location">
 				<option disabled="disabled" selected="selected">Choose city...</option>
 				 <c:forEach items="<%= DatabaseManager.getCityNameList() %>" var="listItem">
         			<option>${listItem}</option>
@@ -56,6 +55,7 @@
 				<select name="display" class="custom-select" id="inputGroupSelect03">
 					<option value="table">Table display</option>
 					<option value="average">Average data</option>
+					<option value="minmax">Minimum/maximum data</option>
 				</select>
 			</div>
 		</form>
@@ -63,7 +63,7 @@
 		<!-- Weather results -->
 		<%= WeatherAppController.formatWeatherResults(request, response) %>
 		
-	</div>
+	</main>
 	
 	<!-- Page Footer -->
 	<footer class="page-footer fixed-bottom font-small bg-light">
@@ -72,7 +72,6 @@
 		<!-- Copyright -->
 	</footer>
 
-	<!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

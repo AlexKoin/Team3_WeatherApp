@@ -53,11 +53,11 @@ public abstract class WeatherApi {
 	}
 
 	/* Utility method */
-	public static String kmhToMs(String kmh) {
-		return String.valueOf(Float.parseFloat(kmh)/3.6f);
+	public static String kphToMps(String kph) {
+		return String.format("%.1f", Float.parseFloat(kph)/3.6f);
 	}
 	
-	/* Sends a request to API site, gets a response stream */
+	/* Sends a request to API site, gets a response string */
 	public static String contactApi(String apiUrl) throws IOException {
 		String apiResponse = null;
 

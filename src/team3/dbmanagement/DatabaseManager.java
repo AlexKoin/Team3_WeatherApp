@@ -60,28 +60,23 @@ public class DatabaseManager {
 	private static void lazyInit()
 	{
 		// Lazy class initialisation:
-		if (connection == null)
-		{
-			try {
+		try {
+			if ((connection == null) || (connection.isClosed())) {
+
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				connection = DriverManager.getConnection(url, user, password);
-				
-				if (sqlStatement == null)
-				{
+
+				if ((sqlStatement == null) || (sqlStatement.isClosed())) {
 					sqlStatement = connection.createStatement();
 				}
-				
-				// TODO: debug
-				System.out.println("Initialised connection to database.");
+
+				// TODO: remove debug
+				//System.out.println("Initialised connection to database.");
 			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

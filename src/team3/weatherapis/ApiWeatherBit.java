@@ -6,6 +6,13 @@ import java.util.Map;
 
 public class ApiWeatherBit extends WeatherApi {
 	
+	public static void main(String[] args)
+	{
+		WeatherApi api = new ApiWeatherBit();
+		
+		System.out.println(api.getWeather("Riga,lv").toString());
+	}
+	
     public ApiWeatherBit()
     {
     	super("weatherbit.io");
@@ -40,21 +47,29 @@ public class ApiWeatherBit extends WeatherApi {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected Weather parseWeather(String json) {
-		String location = "", temperature = "", humidity = "", windSpeed = "", windDirection = "", timestamp = "";
-
+		String location="", weather="", temperature = "", humidity = "", precipitation="", windSpeed = "", windDirection = "", timestamp = "";
+		
 		if (json != null) {
-            Map<String, Object> map = WeatherApi.jsonToMap(json);
-            ArrayList<Map<String, Object>> data = (ArrayList<Map<String, Object>>) map.get("data");
-            Map<String, Object> details = data.get(0);
+			// TODO : remove debug
+			//System.out.println(json);
             
-	        temperature = details.get("temp").toString();
-	        humidity = details.get("rh").toString();
-	        windSpeed = details.get("wind_spd").toString();
-	        float windDirectionInDegrees = Float.parseFloat(details.get("wind_dir").toString());
-	        windDirection = CardinalDirection.fromDegree(windDirectionInDegrees).toString();
+			Map<String, Object> map = WeatherApi.jsonToMap(json);
+            ArrayList<Map<String, Object>> dataMaps = (ArrayList<Map<String, Object>>) map.get("data");
+            Map<String, Object> dataMap = dataMaps.get(0);
+            Map<String, Object> weatherMap = (Map<String, Object>) dataMap.get("weather");
+            
+            location = "lat:" + String.format("%.3f", Float.parseFloat(dataMap.get("lat").toString())) + ", lon:" + String.format("%.3f", Float.parseFloat(dataMap.get("lon").toString()));
+			weather = weatherMap.get("description").toString().toLowerCase();
+	        temperature = dataMap.get("temp").toString();
+	        humidity = dataMap.get("rh").toString();
+	        precipitation = dataMap.get("precip").toString();
+	        windSpeed = String.format("%.1f", Float.parseFloat(dataMap.get("wind_spd").toString()));
+	        float windDirectionInDegrees = Float.parseFloat(dataMap.get("wind_dir").toString());
+	        windDirection = CardinalDirection.fromDegree(windDirectionInDegrees).toString().toLowerCase();
+	        
 	        timestamp = "to be implemented";
 		}
 		
-		return new Weather(this.getSourceName(), location, temperature, humidity, windSpeed, windDirection, timestamp);
+		return new Weather(this.getSourceName(), location, weather, temperature, humidity, precipitation, windSpeed, windDirection, timestamp);
 	}
 }

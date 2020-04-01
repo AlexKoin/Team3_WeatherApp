@@ -1,10 +1,18 @@
 package team3.weatherapis;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class ApiWeatherStack extends WeatherApi {
     
+	public static void main(String[] args)
+	{
+		WeatherApi api = new ApiWeatherStack();
+		
+		System.out.println(api.getWeather("Riga,lv").toString());
+	}
+	
     public ApiWeatherStack()
     {
     	super("weatherstack.com");
@@ -38,19 +46,32 @@ public class ApiWeatherStack extends WeatherApi {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected Weather parseWeather(String json) {
-		String location = "", temperature = "", humidity = "", windSpeed = "", windDirection = "", timestamp = "";
+		String location="", weather="", temperature = "", humidity = "", precipitation="", windSpeed = "", windDirection = "", timestamp = "";
 
 		if (json != null) {
-			Map<String, Object> currentMap = (Map<String, Object>) WeatherApi.jsonToMap(json).get("current");
+			// TODO : remove debug
+			//System.out.println(json);
+			
+			Map<String, Object> map = WeatherApi.jsonToMap(json);
+			Map<String, Object> locationMap = (Map<String, Object>) map.get("location");
+			Map<String, Object> currentMap = (Map<String, Object>) map.get("current");
+			ArrayList<String> weatherDescriptions = (ArrayList<String>)currentMap.get("weather_descriptions");
             
+			location = "lat:" + locationMap.get("lat").toString() + ", lon:" + locationMap.get("lon").toString();
+			for (String weatherDescription : weatherDescriptions)
+			{
+				weather += weatherDescription.toString().toLowerCase();
+			}
 	        temperature = currentMap.get("temperature").toString();
 	        humidity = currentMap.get("humidity").toString();
-	        windSpeed = WeatherApi.kmhToMs(currentMap.get("wind_speed").toString());
+	        precipitation = currentMap.get("precip").toString();
+	        windSpeed = WeatherApi.kphToMps(currentMap.get("wind_speed").toString());
 	        float windDirectionInDegrees = Float.parseFloat(currentMap.get("wind_degree").toString());
-	        windDirection = CardinalDirection.fromDegree(windDirectionInDegrees).toString();
+	        windDirection = CardinalDirection.fromDegree(windDirectionInDegrees).toString().toLowerCase();
+	        
 	        timestamp = "to be implemented";
 		}
 		
-		return new Weather(this.getSourceName(), location, temperature, humidity, windSpeed, windDirection, timestamp);
+		return new Weather(this.getSourceName(), location, weather, temperature, humidity, precipitation, windSpeed, windDirection, timestamp);
 	}
 }
