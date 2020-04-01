@@ -6,9 +6,9 @@ import java.util.ArrayList;
 public class DatabaseManager {
 	/* In theory, this is a big vulnerability, any security information must not be stored in the repo. */
 	/* In real-world scenario, the values should be moved to a separate config file and added to .gitignore. */
-	private static final String user = "b4fd5f310df062";
-	private static final String password = "4139d084";
-	private static final String url = "jdbc:mysql://b4fd5f310df062:4139d084@us-cdbr-iron-east-01.cleardb.net/heroku_03582f067142cb5?reconnect=true";
+	private static final String user = "b9456f267bd65f";
+	private static final String password = "369d252b";
+	private static final String url = "jdbc:mysql://eu-cdbr-west-02.cleardb.net/heroku_e7b48380c052931?reconnect=true";
 	
 	private static Connection connection = null;
 	private static Statement sqlStatement = null;
