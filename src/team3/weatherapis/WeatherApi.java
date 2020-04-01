@@ -13,7 +13,7 @@ import java.util.Map;
 
 public abstract class WeatherApi {
 	private String sourceName = null;
-		
+	
 	protected WeatherApi(String sourceName)
 	{
 		this.sourceName = sourceName;
@@ -24,34 +24,40 @@ public abstract class WeatherApi {
 		return this.sourceName;
 	}
 	
+	/* Each child class must implement these methods: */
 	public abstract Weather getWeather(String location);
 	protected abstract Weather parseWeather(String json);
 	
-	/* Use this for the database lookup: */
+	/* Use this for database lookup: */
 	public final String getApiId()
 	{
 		return this.getClass().getSimpleName();
 	}
 	
-	
-	
-	
-	
+	/* Parses JSON string into an object */
 	public static Map<String, Object> jsonToMap(String str) {
 		Map<String, Object> map = new Gson().fromJson(str, new TypeToken<HashMap<String, Object>>() {
 		}.getType());
 
 		return map;
 	}
-
+	
+	/* Utility method */
 	public static float kelvinToCelsius(float kelvin) {
 		return kelvin - 273.15f;
 	}
 
+	/* Utility method */
 	public static float kelvinToCelsius(String kelvin) {
 		return Float.parseFloat(kelvin) - 273.15f;
 	}
 
+	/* Utility method */
+	public static String kmhToMs(String kmh) {
+		return String.valueOf(Float.parseFloat(kmh)/3.6f);
+	}
+	
+	/* Sends a request to API site, gets a response stream */
 	public static String contactApi(String apiUrl) throws IOException {
 		String apiResponse = null;
 
@@ -72,40 +78,4 @@ public abstract class WeatherApi {
 
 		return apiResponse;
 	}
-	
-//	public static String cityToCoord(String city)
-//	{
-//		// World Cities by andruxnet
-//		String apiKey = "bd476e1f1emsh795b16203d643acp110a1ejsn3cca316d5214";
-//		
-//		String urlString = "https://andruxnet-world-cities-v1.p.rapidapi.com/?query=" + city + "&searchby=city";
-//
-//		StringBuilder stringBuilder = new StringBuilder();
-//		
-//		try {			
-//			URL url = new URL(urlString);
-//			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-//
-//			conn.setRequestMethod("GET");
-//			conn.setRequestProperty("RapidAPI Project", "default-application_4288913");
-//			conn.setRequestProperty("x-rapidapi-host", "andruxnet-world-cities-v1.p.rapidapi.com");
-//			conn.setRequestProperty("x-rapidapi-key", apiKey);
-//			conn.setDoInput(true);
-//			conn.setDoOutput(true);
-//
-//			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//
-//			String line;
-//			while ((line = reader.readLine()) != null) {
-//				stringBuilder.append(line);
-//			}
-//
-//			reader.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		
-//		return stringBuilder.toString();
-//	}
 }

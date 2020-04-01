@@ -51,7 +51,7 @@ public class ApiAeris extends WeatherApi {
             
 	        temperature = details3.get("avgTempC").toString();
 	        humidity = details3.get("humidity").toString();
-	        windSpeed = details3.get("windSpeedKPH").toString();
+	        windSpeed = WeatherApi.kmhToMs(details3.get("windSpeedKPH").toString());
 	        float windDirectionInDegrees = Float.parseFloat(details3.get("windDir80mDEG").toString());
 	        windDirection = CardinalDirection.fromDegree(windDirectionInDegrees).toString();
 	        timestamp = "to be implemented";

@@ -22,11 +22,16 @@
 <title>Weather Forecast App</title>
 </head>
 <body class="bg-accent">
+
 	<!-- Page Header -->
 	<div class="jumbotron jumbotron-fluid bg-light text-center">
 		<p>Accenture Java/Software Bootcamp</p>
 		<h1>Team 3: Weather Forecast App</h1>
 	</div>
+	
+	
+	
+	
 	
 	<!-- User input -->
 	<div class="container bg-light rounded p-3">

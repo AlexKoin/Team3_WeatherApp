@@ -15,7 +15,7 @@ public class ApiDarkSky extends WeatherApi {
         Weather weather = null;
         
         String apiKey = "a6c84f43a34c0ad01c730dba9c5e1f27";
-        String apiUrl = "https://api.darksky.net/forecast/" + apiKey + "/" + location;
+        String apiUrl = "https://api.darksky.net/forecast/" + apiKey + "/" + location + "?units=si";
 
         try {
         	String response = WeatherApi.contactApi(apiUrl);

@@ -45,7 +45,7 @@ public class ApiWeatherStack extends WeatherApi {
             
 	        temperature = currentMap.get("temperature").toString();
 	        humidity = currentMap.get("humidity").toString();
-	        windSpeed = currentMap.get("wind_speed").toString();
+	        windSpeed = WeatherApi.kmhToMs(currentMap.get("wind_speed").toString());
 	        float windDirectionInDegrees = Float.parseFloat(currentMap.get("wind_degree").toString());
 	        windDirection = CardinalDirection.fromDegree(windDirectionInDegrees).toString();
 	        timestamp = "to be implemented";
