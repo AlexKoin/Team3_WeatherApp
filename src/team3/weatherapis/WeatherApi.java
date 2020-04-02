@@ -42,19 +42,71 @@ public abstract class WeatherApi {
 		return map;
 	}
 	
+	public static boolean isKelvinToCelsiusValid(float kelvin) {
+		boolean result = false;
+		try {
+			if (kelvin>= -273 && kelvin <= 100) {
+				result = true;
+			}
+		} catch (Exception e) {
+			result = false;
+		}
+		return result;
+	}
+	
+	public static boolean isKelvinToCelsiusValid(String kelvin) {
+		boolean result = false;
+		try {
+			if (Float.parseFloat(kelvin) >= -273 && Float.parseFloat(kelvin) <= 100) {
+				result = true;
+			}
+		} catch (Exception e) {
+			result = false;
+		}
+		return result;
+	}
+	
+	public static boolean iskphToMpsValid(String kph) {
+		boolean result = false;
+		try {
+			if (Float.parseFloat(kph) >= 0 && Float.parseFloat(kph) <= 500) {
+				result = true;
+			}
+		} catch (Exception e) {
+			result = false;
+		}
+		return result;
+	}
+	
+	
+	
 	/* Utility method */
 	public static float kelvinToCelsius(float kelvin) {
-		return kelvin - 273.15f;
+		
+		if (isKelvinToCelsiusValid(kelvin) == true) {
+			return kelvin - 273.15f;
+		} else {
+			return kelvin;
+		}
+		
 	}
 
 	/* Utility method */
 	public static float kelvinToCelsius(String kelvin) {
-		return Float.parseFloat(kelvin) - 273.15f;
+		if (isKelvinToCelsiusValid(kelvin) == true) {
+			return Float.parseFloat(kelvin) - 273.15f;
+		} else {
+			return Float.parseFloat(kelvin);
+		}
 	}
 
 	/* Utility method */
 	public static String kphToMps(String kph) {
-		return String.format("%.1f", Float.parseFloat(kph)/3.6f);
+		if (iskphToMpsValid(kph) == true) {
+			return String.format("%.1f", Float.parseFloat(kph)/3.6f);
+		} else {
+			return "Invalid data";
+		}
 	}
 	
 	/* Sends a request to API site, gets a response string */
