@@ -6,9 +6,9 @@ import java.util.ArrayList;
 public class DatabaseManager {
 	/* In theory, this is a big vulnerability, any security information must not be stored in the repo. */
 	/* In real-world scenario, the values should be moved to a separate config file and added to .gitignore. */
-	private static final String user = "b9456f267bd65f";
-	private static final String password = "369d252b";
-	private static final String url = "jdbc:mysql://eu-cdbr-west-02.cleardb.net/heroku_e7b48380c052931?reconnect=true";
+	private static final String user = System.getenv("JDBC_DATABASE_USERNAME");
+	private static final String password = System.getenv("JDBC_DATABASE_PASSWORD");
+	private static final String url = System.getenv("JDBC_DATABASE_URL");
 	
 	private static Connection connection = null;
 	private static Statement sqlStatement = null;
@@ -63,7 +63,7 @@ public class DatabaseManager {
 		try {
 			if ((connection == null) || (connection.isClosed())) {
 
-				Class.forName("com.mysql.cj.jdbc.Driver");
+				Class.forName("org.postgresql.Driver");
 				connection = DriverManager.getConnection(url, user, password);
 
 				if ((sqlStatement == null) || (sqlStatement.isClosed())) {
