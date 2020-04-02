@@ -8,7 +8,7 @@ public class DatabaseManager {
 	/* In real-world scenario, the values should be moved to a separate config file and added to .gitignore. */
 	private static final String user = "b9456f267bd65f";
 	private static final String password = "369d252b";
-	private static final String url = "jdbc:mysql://eu-cdbr-west-02.cleardb.net/heroku_e7b48380c052931?reconnect=true";
+	private static final String url = "jdbc:mysql:eu-cdbr-west-02.cleardb.net:3306/heroku_e7b48380c052931?reconnect=true";
 	
 	private static Connection connection = null;
 	private static Statement sqlStatement = null;
