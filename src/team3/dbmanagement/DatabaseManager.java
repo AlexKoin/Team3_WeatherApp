@@ -6,9 +6,14 @@ import java.util.ArrayList;
 public class DatabaseManager {
 	/* In theory, this is a big vulnerability, any security information must not be stored in the repo. */
 	/* In real-world scenario, the values should be moved to a separate config file and added to .gitignore. */
-	private static final String user = "b9456f267bd65f";
-	private static final String password = "369d252b";
-	private static final String url = "jdbc:mysql:eu-cdbr-west-02.cleardb.net:3306/heroku_e7b48380c052931?reconnect=true";
+	
+//	private static final String user = "b9456f267bd65f";
+//	private static final String password = "369d252b";
+//	private static final String url = "jdbc:mysql://eu-cdbr-west-02.cleardb.net:3306/heroku_e7b48380c052931?reconnect=true";
+	
+	private static final String user = "uygxfraznldxvp";
+	private static final String password = "dae795b0e34014421e5f2ecdaddd1fa4d3cc370871b399fc8e3e1a84da28487a";
+	private static final String url = "jdbc:postgresql://ec2-79-125-26-232.eu-west-1.compute.amazonaws.com:5432/debfhgr9kile4r?ssl=true&sslmode=require";
 	
 	private static Connection connection = null;
 	private static Statement sqlStatement = null;
@@ -63,7 +68,8 @@ public class DatabaseManager {
 		try {
 			if ((connection == null) || (connection.isClosed())) {
 
-				Class.forName("com.mysql.cj.jdbc.Driver");
+//				Class.forName("com.mysql.cj.jdbc.Driver");
+				Class.forName("org.postgresql.Driver");
 				connection = DriverManager.getConnection(url, user, password);
 
 				if ((sqlStatement == null) || (sqlStatement.isClosed())) {
