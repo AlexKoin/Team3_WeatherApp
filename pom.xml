@@ -59,7 +59,17 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-
+		<dependency>
+  			<groupId>org.postgresql</groupId>
+  			<artifactId>postgresql</artifactId>
+  			<version>42.2.10</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
+		<dependency>
+		    <groupId>postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <version>9.1-901.jdbc3</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -85,8 +95,10 @@
 		        <artifactId>heroku-maven-plugin</artifactId>
 		        <version>3.0.1</version>
 		        	<configuration>
-						<jdkVersion>13</jdkVersion>		
-		        	</configuration>
+						<jdkVersion>13</jdkVersion>	
+						<!-- <appName>team3-weatherapp</appName>	 -->
+						<appName>team3-weatherapp-postgresql</appName>	
+					</configuration>
       		</plugin>
       		 <plugin>
             <groupId>org.apache.maven.plugins</groupId>
