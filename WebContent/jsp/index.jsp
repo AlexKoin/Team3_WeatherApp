@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<!-- <meta charset="ISO-8859-1"> -->
 
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -14,8 +14,6 @@
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<!--  Google Web Fonts -->
-<link href="https://fonts.googleapis.com/css?family=Baloo+Da+2|Catamaran:900|Titillium+Web:900&display=swap" rel="stylesheet">
 
 <style><%@include file="/css/style.css"%></style>
 

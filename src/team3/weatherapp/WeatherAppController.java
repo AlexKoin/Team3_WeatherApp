@@ -45,19 +45,6 @@ public class WeatherAppController implements Serializable {
 		return weatherApis;
 	}
 
-//	public static String formatInputGroup(HttpServletRequest request)
-//	{
-//		StringBuilder htmlStringBuilder= new StringBuilder();
-//		
-//		String location = request.getParameter("location");
-//		//String display = request.getParameter("display");
-//		
-//		// if ((location != null) && (!location.isBlank())) {
-//		// }
-//		
-//		return htmlStringBuilder.toString();
-//	}
-
 	@SuppressWarnings("unused")
 	public static String formatWeatherResults(HttpServletRequest request, HttpServletResponse response) {
 		StringBuilder htmlStringBuilder = new StringBuilder();
@@ -75,7 +62,7 @@ public class WeatherAppController implements Serializable {
 			}
 
 			// TODO : delete debug
-			// System.out.println("Got weather results: " + weatherResults.size());
+			System.out.println("Got weather results: " + weatherResults.size());
 
 			/* Use display parameter to format data for display: */
 			if ((displayParameter != null) && (!displayParameter.isBlank())) {
@@ -83,7 +70,7 @@ public class WeatherAppController implements Serializable {
 				switch (displayParameter) {
 				// Rendering of table display
 				case "table": {
-					htmlStringBuilder.append("<h1>Weather forecast for " + locationParameter + "</h1>");
+					htmlStringBuilder.append("<span style=\"text-info\">Weather forecast for " + locationParameter + "</span>");
 
 					int columnCount = 3; // non-index column count per row
 					int lastColumn = columnCount - 1; // index of last column in row
@@ -130,6 +117,8 @@ public class WeatherAppController implements Serializable {
 				}
 
 				case "average": {
+					htmlStringBuilder.append("<span style=\"text-info\">Weather forecast for " + locationParameter + "</span>");
+					
 					String location = locationParameter;
 					String weatherDescription = "";
 					String temperature = "";
@@ -159,29 +148,13 @@ public class WeatherAppController implements Serializable {
 						windSpeed = String.format("%.1f", windSpeedTotal / apiCount);
 					}
 
-//						/* open row */
-//						htmlStringBuilder.append("<div class=\"row\">");
-
-//						/* open column */
-//						htmlStringBuilder.append("<div class=\"col\">");
-//						/* close column */
-//						htmlStringBuilder.append("</div>");
-
 					/* open column */
 					htmlStringBuilder.append("<div class=\"col\">");
 					/* Build weather result card */
-					htmlStringBuilder.append(buildWeatherCard(new Weather("average weather", location,
+					htmlStringBuilder.append(buildWeatherCard(new Weather("average weather data", location,
 							weatherDescription, temperature, humidity, precipitation, windSpeed, windDirection, "")));
 					/* close column */
 					htmlStringBuilder.append("</div>");
-
-//						/* open column */
-//						htmlStringBuilder.append("<div class=\"col\">");
-//						/* close column */
-//						htmlStringBuilder.append("</div>");
-
-//						/* close row */
-//						htmlStringBuilder.append("</div>");
 
 					response.setStatus(HttpServletResponse.SC_OK);
 					break;
@@ -191,7 +164,7 @@ public class WeatherAppController implements Serializable {
 					String location = locationParameter;
 					String weatherDescription = "";
 
-					/* 1000.0 is a crutch to get the values to update */
+					/* Init to 1000.0 is a crutch to get the minimum values to update */
 					String temperatureMin = "1000.0";
 					String humidityMin = "1000.0";
 					String precipitationMin = "1000.0";
@@ -199,13 +172,13 @@ public class WeatherAppController implements Serializable {
 
 					String windDirection = "";
 
-					String temperatureMax = "0.0";
-					String humidityMax = "0.0";
-					String precipitationMax = "0.0";
-					String windSpeedMax = "0.0";
+					/* Init to -1000.0 is a crutch to get the maximum values to update */
+					String temperatureMax = "-1000.0";
+					String humidityMax = "-1000.0";
+					String precipitationMax = "-1000.0";
+					String windSpeedMax = "-1000.0";
 
 					for (Weather weather : weatherResults) {
-						System.out.println(weather.getSourceName());
 						
 						temperatureMin = (Float.parseFloat(weather.getTemperature()) < Float.parseFloat(temperatureMin))
 								? weather.getTemperature()
@@ -236,9 +209,9 @@ public class WeatherAppController implements Serializable {
 								: windSpeedMax;
 					}
 					
-					Weather weatherMin = new Weather("minimum weather", location,
+					Weather weatherMin = new Weather("lowest weather data", location,
 							weatherDescription, temperatureMin, humidityMin, precipitationMin, windSpeedMin, windDirection, "");
-					Weather weatherMax = new Weather("maximum weather", location,
+					Weather weatherMax = new Weather("highest weather data", location,
 							weatherDescription, temperatureMax, humidityMax, precipitationMax, windSpeedMax, windDirection, "");
 
 					/* open row */
@@ -300,13 +273,12 @@ public class WeatherAppController implements Serializable {
 		stringBuilder.append("</div>");
 
 		stringBuilder.append("<div class=\"weather-card-content rounded-bottom bg-white\">");
-		stringBuilder.append("location: " + location + "<br>");
+		stringBuilder.append("<span class=\"text-data\">location: " + location + "<br>");
 		stringBuilder.append("weather: " + weatherDescription + "<br>");
 		stringBuilder.append("temperature: " + temperature + "°C<br>");
 		stringBuilder.append("humidity: " + humidity + "%<br>");
 		stringBuilder.append("precipitation: " + precipitation + "mm/h<br>");
-		stringBuilder.append("wind speed: " + windSpeed + "m/s<br>");
-		stringBuilder.append("wind direction: " + windDirection);
+		stringBuilder.append("wind: " + windSpeed + "m/s " + windDirection + "<br></span>");
 		stringBuilder.append("</div>");
 		stringBuilder.append("</div>");
 

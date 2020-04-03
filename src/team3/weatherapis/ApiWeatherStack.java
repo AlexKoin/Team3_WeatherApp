@@ -22,7 +22,8 @@ public class ApiWeatherStack extends WeatherApi {
     public Weather getWeather(String location) {
         Weather weather = null;
         
-        String apiKey = "321c152f35c73d014a4b237d574a84e7";
+        //String apiKey = "321c152f35c73d014a4b237d574a84e7";
+        String apiKey = "999a34e6025c0761e5cb59f2a31051a2";
         String apiUrl = "http://api.weatherstack.com/current?access_key=" + apiKey + "&query=" + location;
 
         try {

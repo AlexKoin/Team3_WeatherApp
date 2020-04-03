@@ -4,16 +4,34 @@
 	padding: 0;
 }
 
+
 body {
-	color: #192e45;
-	font-size: 1rem;
-	/* font-family: 'Baloo Da 2', sans-serif; */
+	font-size: 0.8em;
 }
 
-/* Sticky footer styles */
+
+@media (min-width: 600px) {
+	body {
+		font-size: 0.9em;
+	}
+}
+
+@media (min-width: 800px) {
+	body {
+		font-size: 1em;
+	}
+}
+
+body {
+	color: #192e45;
+}
+
+
 html {
-  position: relative;
-  min-height: 100%;
+	color: #192e45;
+	/* Sticky footer styles */
+	position: relative;
+	min-height: 100%;
 }
 
 body {
@@ -21,15 +39,16 @@ body {
   margin-bottom: 5rem;
 }
 
+/*
 .footer {
   position: absolute;
   bottom: 0;
-  width: 100%;
+  width: 100%; */
   /* Set the fixed height of the footer here */
-  height: 60px;
+  /* height: 60px;
   line-height: 60px; /* Vertically center the text there */
-  background-color: #f5f5f5;
-}
+  /*background-color: #f5f5f5;
+} */
 
 /* Accent color for main page background */
 .bg-accent {
@@ -46,28 +65,39 @@ body {
 }
 
 .page-content {
-	padding: 5rem 1rem 1rem;
+	padding: 6rem 1em 1em;
 }
 
 /* Weather card styles */
 /* Outer weather card container */
 .weather-card {
 	padding: 0;
-	margin: 1em 0em 1em;
+	margin: 1rem 0 1rem;
 }
 
 /* Inner weather card colored header */
 .weather-card-header {
-	min-height: 1em;
-	padding-left: 1em;
+	min-height: 1rem;
+	padding-left: 1rem;
 	margin: 0;
 }
 
 /* Inner weather card content */
 .weather-card-content {
 	font-size: 1rem;
-	padding: 0em 1rem 1em;
+	padding: 0 1rem 1rem;
 	margin: 0;
+}
+
+.text-info {
+	font-size: inherit;
+	font-weight: bold;
+}
+
+.text-data {
+	font-size: inherit;
+	font-family: monospace;
+	line-height: 0.8em;
 }
 
 .shadow {

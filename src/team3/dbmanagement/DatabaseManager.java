@@ -65,13 +65,16 @@ public class DatabaseManager {
 
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				connection = DriverManager.getConnection(url, user, password);
+				
+				// TODO: remove debug
+				System.out.println("Initialised connection to database.");
 
 				if ((sqlStatement == null) || (sqlStatement.isClosed())) {
 					sqlStatement = connection.createStatement();
+					
+					// TODO: remove debug
+					System.out.println("Initialised database statement.");
 				}
-
-				// TODO: remove debug
-				//System.out.println("Initialised connection to database.");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

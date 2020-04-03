@@ -75,7 +75,7 @@ public class ApiClimaCell extends WeatherApi {
 			
 			Map<String, Object> map = WeatherApi.jsonToMap(json);
             
-			location = "lat:" + map.get("lat").toString() + ", lon:" + map.get("lon").toString();
+			location = "lat:" + String.format("%.3f", Float.parseFloat(map.get("lat").toString())) + ", lon:" + String.format("%.3f", Float.parseFloat(map.get("lon").toString()));
 			weather = ((Map<String, Object>)map.get("weather_code")).get("value").toString();
 	        temperature = ((Map<String, Object>)map.get("temp")).get("value").toString();
 	        humidity = ((Map<String, Object>)map.get("humidity")).get("value").toString();

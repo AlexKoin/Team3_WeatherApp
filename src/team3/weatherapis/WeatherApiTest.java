@@ -12,11 +12,6 @@ import java.util.ArrayList;
 public class WeatherApiTest {
 
 	public static void main(String[] args) {
-		// ArrayList<WeatherAPI> weatherApis = new ArrayList<WeatherAPI>();
-
-		// DatabaseManager city = new DatabaseManager();
-		// city.setCityToApis("Paris");
-
 		DatabaseManager.getCityNameList();
 
 		ArrayList<WeatherApi> weatherApis = new ArrayList<WeatherApi>();
