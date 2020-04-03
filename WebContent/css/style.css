@@ -105,3 +105,12 @@ body {
 	-moz-box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.2);
 	box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
+
+
+@media screen and (max-width: 960px)
+{
+	.col
+	{
+		flex-basis: 90% !important;
+	}
+}
