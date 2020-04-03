@@ -136,10 +136,6 @@ public class Weather {
 		return result;
 	}
 
-	
-	
-	
-	
 	public String getSourceName() {
 
 		if (isValidSourceName(sourceName) == true) {
@@ -203,8 +199,9 @@ public class Weather {
 			return windDirection;
 		} else {
 			return "invalid data";
+		}
 	}
-	}
+
 	public String getTimestamp() {
 		return timestamp;
 	}

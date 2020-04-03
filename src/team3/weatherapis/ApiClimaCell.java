@@ -25,7 +25,8 @@ public class ApiClimaCell extends WeatherApi {
     public Weather getWeather(String location) {
         Weather weather = null;
         
-        String apiKey = "dCj790S0DL1qEx8DmUdV9JDyY0aT0E4x";
+        //String apiKey = "dCj790S0DL1qEx8DmUdV9JDyY0aT0E4x";
+        String apiKey = "bOvqkc3qQQ7OLRvUhUcXzlef09rViPB5";
         String apiUrl = "https://api.climacell.co/v3/weather/realtime?" + location + "&fields=temp,humidity,precipitation,weather_code,wind_speed,wind_direction";
 
 		StringBuilder stringBuilder = new StringBuilder();

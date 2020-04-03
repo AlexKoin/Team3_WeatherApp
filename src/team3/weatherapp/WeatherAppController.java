@@ -120,12 +120,12 @@ public class WeatherAppController implements Serializable {
 					htmlStringBuilder.append("<span style=\"text-info\">Weather forecast for " + locationParameter + "</span>");
 					
 					String location = locationParameter;
-					String weatherDescription = "";
+					String weatherDescription = "n/a";
 					String temperature = "";
 					String humidity = "";
 					String precipitation = "";
 					String windSpeed = "";
-					String windDirection = "";
+					String windDirection = "n/a";
 
 					int apiCount = 0;
 					float temperatureTotal = 0.0f;
@@ -162,7 +162,7 @@ public class WeatherAppController implements Serializable {
 
 				case "minmax": {
 					String location = locationParameter;
-					String weatherDescription = "";
+					String weatherDescription = "n/a";
 
 					/* Init to 1000.0 is a crutch to get the minimum values to update */
 					String temperatureMin = "1000.0";
@@ -170,7 +170,7 @@ public class WeatherAppController implements Serializable {
 					String precipitationMin = "1000.0";
 					String windSpeedMin = "1000.0";
 
-					String windDirection = "";
+					String windDirection = "n/a";
 
 					/* Init to -1000.0 is a crutch to get the maximum values to update */
 					String temperatureMax = "-1000.0";
@@ -269,16 +269,16 @@ public class WeatherAppController implements Serializable {
 		/* Build weather result card */
 		stringBuilder.append("<div class=\"weather-card rounded shadow\">");
 		stringBuilder.append("<div class=\"weather-card-header rounded-top bg-accent-light\">");
-		stringBuilder.append("<strong>" + source + "</strong>");
+		stringBuilder.append("<strong class=\"text-data\">" + source + "</strong>");
 		stringBuilder.append("</div>");
 
 		stringBuilder.append("<div class=\"weather-card-content rounded-bottom bg-white\">");
 		stringBuilder.append("<span class=\"text-data\">location: " + location + "<br>");
-		stringBuilder.append("weather: " + weatherDescription + "<br>");
-		stringBuilder.append("temperature: " + temperature + "°C<br>");
-		stringBuilder.append("humidity: " + humidity + "%<br>");
+		stringBuilder.append("weather:       " + weatherDescription + "<br>");
+		stringBuilder.append("temperature:   " + temperature + "degC<br>");
+		stringBuilder.append("humidity:      " + humidity + "%<br>");
 		stringBuilder.append("precipitation: " + precipitation + "mm/h<br>");
-		stringBuilder.append("wind: " + windSpeed + "m/s " + windDirection + "<br></span>");
+		stringBuilder.append("wind:          " + windSpeed + "m/s " + windDirection + "<br></span>");
 		stringBuilder.append("</div>");
 		stringBuilder.append("</div>");
 

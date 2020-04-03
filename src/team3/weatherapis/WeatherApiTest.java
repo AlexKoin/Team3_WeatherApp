@@ -12,14 +12,14 @@ import java.util.ArrayList;
 public class WeatherApiTest {
 
 	public static void main(String[] args) {
-		DatabaseManager.getCityNameList();
+		//DatabaseManager.getCityNameList();
 
 		ArrayList<WeatherApi> weatherApis = new ArrayList<WeatherApi>();
 
 		// openweathermap.org
 		weatherApis.add(new ApiAeris());
 		// climacell.co
-		weatherApis.add(new ApiClimaCell());
+		//weatherApis.add(new ApiClimaCell());
 		// darksky.net
 		weatherApis.add(new ApiDarkSky());
 		// openweathermap.org
@@ -31,7 +31,7 @@ public class WeatherApiTest {
 		// weatherstack.com
 		weatherApis.add(new ApiWeatherStack());
 
-		String locationParameter = "Riga";
+		String locationParameter = "London";
 		ArrayList<Weather> weatherResults = new ArrayList<Weather>();
 
 		/* Use location parameter here to retrieve weather data: */

@@ -4,13 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import team3.dbmanagement.DatabaseManager;
+
 public class ApiWeatherBit extends WeatherApi {
 	
 	public static void main(String[] args)
 	{
 		WeatherApi api = new ApiWeatherBit();
 		
-		System.out.println(api.getWeather("Riga,lv").toString());
+		System.out.println(api.getWeather(DatabaseManager.getApiLocation("London", api.getApiId()).toString()));
 	}
 	
     public ApiWeatherBit()
@@ -28,6 +30,9 @@ public class ApiWeatherBit extends WeatherApi {
 
         try {
         	String response = WeatherApi.contactApi(apiUrl);
+        	
+        	// TODO : remove debug
+        	//System.out.println(response);
         	
         	// Assign values from API response to instance of Weather
             if (response != null) {
